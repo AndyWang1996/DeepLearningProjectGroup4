@@ -62,8 +62,11 @@ def main():
     if args.write_data:
         print('---------------------')
         data = pd.read_csv('/content/DeepLearningProjectGroup4/DeepLearningProjectGroup4/image/train_full_1_image_data.csv')
+        print(len(data))
         data.append(pd.read_csv('/content/DeepLearningProjectGroup4/DeepLearningProjectGroup4/image/train_full_2_image_data.csv'))
+        print(len(data))
         data.append(pd.read_csv('/content/DeepLearningProjectGroup4/DeepLearningProjectGroup4/image/train_full_3_image_data.csv'))
+        print(len(data))
         test_data = pd.read_csv('/content/DeepLearningProjectGroup4/DeepLearningProjectGroup4/image/test_full_image_data.csv')
         val_split = round(data.shape[0]*0.2)
         data = shuffle(data)
