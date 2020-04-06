@@ -1,0 +1,29 @@
+default: &DEFAULT
+  num_epochs: 1000
+  batch_size: 256
+
+MLP:
+  <<: *DEFAULT
+  model_name: mlp
+  data_dir: "fashionmnist" # https://www.kaggle.com/zalando-research/fashionmnist
+  checkpoint_dir: "checkpoints/mlp"
+  log_dir: 'logs/mlp'
+  dataset_class: "FashionMNISTDataset"
+  flatten: True
+  gpu_vis_dev: '0'
+  num_epochs: 10
+  batch_size: 256
+  lr: 0.0001
+
+CNN:
+  <<: *DEFAULT
+  model_name: cnn
+  data_dir: "fashionmnist"
+  checkpoint_dir: "checkpoints/cnn"
+  log_dir: 'logs/cnn'
+  dataset_class: "FashionMNISTDataset"
+  flatten: False
+  gpu_vis_dev: '0'
+  num_epochs: 10
+  batch_size: 256
+  lr: 0.0001

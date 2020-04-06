@@ -1,0 +1,29 @@
+default: &DEFAULT
+  num_epochs: 1000
+  batch_size: 256
+
+MLP:
+  <<: *DEFAULT
+  model_name: mlp
+  data_dir: "/content/DeepLearningProjectGroup4/image" # https://www.kaggle.com/zalando-research/fashionmnist
+  checkpoint_dir: "/content/DeepLearningProjectGroup4/checkpoints/mlp"
+  log_dir: '/content/DeepLearningProjectGroup4/logs/mlp'
+  dataset_class: "DLG4Dataset"
+  flatten: True
+  gpu_vis_dev: '0'
+  num_epochs: 10
+  batch_size: 256
+  lr: 0.0001
+
+CNN:
+  <<: *DEFAULT
+  model_name: cnn
+  data_dir: "/content/DeepLearningProjectGroup4/image"
+  checkpoint_dir: "/content/DeepLearningProjectGroup4/checkpoints/cnn"
+  log_dir: '/content/DeepLearningProjectGroup4/logs/cnn'
+  dataset_class: "DLG4Dataset"
+  flatten: False
+  gpu_vis_dev: '0'
+  num_epochs: 10
+  batch_size: 256
+  lr: 0.0001
