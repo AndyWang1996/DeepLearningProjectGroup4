@@ -73,9 +73,9 @@ def main():
         test_data.to_csv(os.path.join(params.data_dir, "test.csv"), index=False)
 
     # This is useful if you have multiple custom datasets defined. 
-    Dataset = getattr(Datasets, params.dataset_class)
-    train_data = Dataset(params.data_dir, "train.csv", flatten=params.flatten)
-    val_data = Dataset(params.data_dir, "val.csv", flatten=params.flatten)
+    # Dataset = getattr(Datasets, params.dataset_class)
+    # train_data = Dataset(params.data_dir, "train.csv", flatten=params.flatten)
+    # val_data = Dataset(params.data_dir, "val.csv", flatten=params.flatten)
     train_loader = DataLoader(
         train_data, 
         batch_size=params.batch_size,
