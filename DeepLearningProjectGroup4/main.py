@@ -39,7 +39,7 @@ def main():
         )
     args = parser.parse_args()
     # Parse our YAML file which has our model parameters. 
-    params = Params("hparams.yaml", args.model_name)
+    params = Params("/content/DeepLearningProjectGroup4/DeepLearningProjectGroup4/hparams.yaml", args.model_name)
     os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"
     os.environ["CUDA_VISIBLE_DEVICES"]=params.gpu_vis_dev
     # Check if a GPU is available and use it if so. 
