@@ -60,6 +60,7 @@ def main():
     optimizer = optim.Adam(model.parameters(), lr=params.lr)
     # Write data if specified in command line arguments. 
     if args.write_data:
+        print('---------------------')
         data = pd.read_csv('/content/DeepLearningProjectGroup4/DeepLearningProjectGroup4/image/train_full_1_image_data.csv')
         data.append(pd.read_csv('/content/DeepLearningProjectGroup4/DeepLearningProjectGroup4/image/train_full_2_image_data.csv'))
         data.append(pd.read_csv('/content/DeepLearningProjectGroup4/DeepLearningProjectGroup4/image/train_full_3_image_data.csv'))
@@ -73,9 +74,9 @@ def main():
         test_data.to_csv(os.path.join(params.data_dir, "test.csv"), index=False)
 
     # This is useful if you have multiple custom datasets defined. 
-    # Dataset = getattr(Datasets, params.dataset_class)
-    # train_data = Dataset(params.data_dir, "train.csv", flatten=params.flatten)
-    # val_data = Dataset(params.data_dir, "val.csv", flatten=params.flatten)
+    Dataset = getattr(Datasets, params.dataset_class)
+    train_data = Dataset(params.data_dir, "train.csv", flatten=params.flatten)
+    val_data = Dataset(params.data_dir, "val.csv", flatten=params.flatten)
     train_loader = DataLoader(
         train_data, 
         batch_size=params.batch_size,
