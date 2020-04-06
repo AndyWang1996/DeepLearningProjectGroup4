@@ -60,10 +60,10 @@ def main():
     optimizer = optim.Adam(model.parameters(), lr=params.lr)
     # Write data if specified in command line arguments. 
     if args.write_data:
-        data = pd.read_csv('/content/DeepLearningProjectGroup4/image/train_full_1_image_data.csv')
-        data.append(pd.read_csv('/content/DeepLearningProjectGroup4/image/train_full_2_image_data.csv'))
-        data.append(pd.read_csv('/content/DeepLearningProjectGroup4/image/train_full_3_image_data.csv'))
-        test_data = pd.read_csv('/content/DeepLearningProjectGroup4/image/test_full_image_data.csv')
+        data = pd.read_csv('/content/DeepLearningProjectGroup4/DeepLearningProjectGroup4/image/train_full_1_image_data.csv')
+        data.append(pd.read_csv('/content/DeepLearningProjectGroup4/DeepLearningProjectGroup4/image/train_full_2_image_data.csv'))
+        data.append(pd.read_csv('/content/DeepLearningProjectGroup4/DeepLearningProjectGroup4/image/train_full_3_image_data.csv'))
+        test_data = pd.read_csv('/content/DeepLearningProjectGroup4/DeepLearningProjectGroup4/image/test_full_image_data.csv')
         val_split = round(data.shape[0]*0.2)
         data = shuffle(data)
         train_data = data.iloc[val_split:]

@@ -5,9 +5,9 @@ default: &DEFAULT
 MLP:
   <<: *DEFAULT
   model_name: mlp
-  data_dir: "/content/DeepLearningProjectGroup4/image" # https://www.kaggle.com/zalando-research/fashionmnist
-  checkpoint_dir: "/content/DeepLearningProjectGroup4/checkpoints/mlp"
-  log_dir: '/content/DeepLearningProjectGroup4/logs/mlp'
+  data_dir: "/content/DeepLearningProjectGroup4/DeepLearningProjectGroup4/image" # https://www.kaggle.com/zalando-research/fashionmnist
+  checkpoint_dir: "/content/DeepLearningProjectGroup4/DeepLearningProjectGroup4/checkpoints/mlp"
+  log_dir: '/content/DeepLearningProjectGroup4/DeepLearningProjectGroup4/logs/mlp'
   dataset_class: "DLG4Dataset"
   flatten: True
   gpu_vis_dev: '0'
