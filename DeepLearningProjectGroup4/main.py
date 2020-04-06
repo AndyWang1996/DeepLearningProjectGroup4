@@ -69,8 +69,11 @@ def main():
         data = shuffle(data)
         train_data = data.iloc[val_split:]
         val_data = data.iloc[:val_split]
+        print(len(train_data))
         train_data.to_csv(os.path.join(params.data_dir, "train.csv"), index=False)
+        print(len(val_data))
         val_data.to_csv(os.path.join(params.data_dir, "val.csv"), index=False)
+        print(len(test_data))
         test_data.to_csv(os.path.join(params.data_dir, "test.csv"), index=False)
 
     # This is useful if you have multiple custom datasets defined. 
