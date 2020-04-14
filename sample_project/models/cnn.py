@@ -8,16 +8,21 @@ import torch.nn.functional as F
 import torch.optim as optim
 from tqdm import tqdm
 from sklearn.metrics import accuracy_score
+from sklearn.metrics import recall_score
+from sklearn.metrics import precision_score
+from sklearn.metrics import f1_score
+from sklearn.metrics import roc_curve
+from sklearn.metrics import auc
 '''Part of format and full model from pytorch examples repo: https://github.com/pytorch/examples/blob/master/mnist/main.py'''
 class net(nn.Module):
     def __init__(self):
         super(net, self).__init__()
-        self.conv1 = nn.Conv2d(1, 32, 3, 1)
-        self.conv2 = nn.Conv2d(32, 64, 3, 1)
+        self.conv1 = nn.Conv2d(1, 32, 4, 2)
+        self.conv2 = nn.Conv2d(32, 64, 4, 2)
         self.dropout1 = nn.Dropout2d(0.25)
         self.dropout2 = nn.Dropout2d(0.5)
-        self.fc1 = nn.Linear(9216, 128)
-        self.fc2 = nn.Linear(128, 10)
+        self.fc1 = nn.Linear(7744, 128)
+        self.fc2 = nn.Linear(128, 2)
 
     def forward(self, x):
         nn = self.conv1(x)
@@ -29,7 +34,8 @@ class net(nn.Module):
         nn = self.fc1(nn)
         nn = F.relu(nn)
         nn = self.dropout2(nn)
-        output = self.fc2(nn)
+        nn = self.fc2(nn)
+        output = F.softmax(nn,-1)
         return output
 
 def train(model, device, train_loader, optimizer):
@@ -58,6 +64,7 @@ def val(model, device, val_loader, checkpoint=None):
     targets = []
     cost = nn.CrossEntropyLoss()
     losses = []
+
     with torch.no_grad():
         for batch_idx, (data, label) in enumerate(val_loader):
             data = data.to(device)
@@ -70,7 +77,13 @@ def val(model, device, val_loader, checkpoint=None):
     preds = np.argmax(np.concatenate(preds), axis=1)
     targets  = np.concatenate(targets)
     acc = accuracy_score(targets, preds)
-    return loss, acc
+    recall = recall_score(targets, preds, average='binary')
+    precision = precision_score(targets, preds, average='binary')
+    f1 = f1_score(targets, preds, average='binary')
+    fpr, tpr, thresholds = roc_curve(targets, preds, pos_label=1)
+    au = auc(fpr, tpr)
+    
+    return loss, acc, recall, precision, f1, fpr, tpr, thresholds, au
 
 def test(model, device, test_loader, checkpoint=None):
     if checkpoint is not None:
