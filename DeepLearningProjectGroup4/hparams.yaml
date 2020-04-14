@@ -5,25 +5,39 @@ default: &DEFAULT
 MLP:
   <<: *DEFAULT
   model_name: mlp
-  data_dir: "/content/DeepLearningProjectGroup4/DeepLearningProjectGroup4/image" # https://www.kaggle.com/zalando-research/fashionmnist
-  checkpoint_dir: "/content/DeepLearningProjectGroup4/DeepLearningProjectGroup4/checkpoints/mlp"
-  log_dir: '/content/DeepLearningProjectGroup4/DeepLearningProjectGroup4/logs/mlp'
-  dataset_class: "DLG4Dataset"
+  data_dir: "fashionmnist" 
+  checkpoint_dir: "checkpoints/mlp"
+  log_dir: 'logs/mlp'
+  dataset_class: "FashionMNISTDataset"
   flatten: True
   gpu_vis_dev: '0'
-  num_epochs: 10
+  num_epochs: 20
   batch_size: 256
   lr: 0.0001
 
 CNN:
   <<: *DEFAULT
   model_name: cnn
-  data_dir: "/content/DeepLearningProjectGroup4/DeepLearningProjectGroup4/image"
-  checkpoint_dir: "/content/DeepLearningProjectGroup4/DeepLearningProjectGroup4/checkpoints/cnn"
-  log_dir: '/content/DeepLearningProjectGroup4/DeepLearningProjectGroup4/logs/cnn'
-  dataset_class: "DLG4Dataset"
+  data_dir: "fashionmnist"
+  checkpoint_dir: "checkpoints/cnn"
+  log_dir: 'logs/cnn'
+  dataset_class: "FashionMNISTDataset"
   flatten: False
   gpu_vis_dev: '0'
-  num_epochs: 10
+  num_epochs: 20
   batch_size: 256
   lr: 0.0001
+
+VGG16:
+  <<: *DEFAULT
+  model_name: vgg16
+  data_dir: "fashionmnist"
+  checkpoint_dir: "checkpoints/vgg16"
+  log_dir: 'logs/vgg16'
+  dataset_class: "FashionMNISTDataset"
+  flatten: False
+  gpu_vis_dev: '0'
+  num_epochs: 20
+  batch_size: 256
+  lr: 0.0001
+
