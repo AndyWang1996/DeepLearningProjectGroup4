@@ -14,7 +14,6 @@ from sklearn.metrics import f1_score
 from sklearn.metrics import roc_curve
 from sklearn.metrics import auc
 
-
 '''
 Part of format and full model from pytorch examples repo: 
 https://github.com/pytorch/examples/blob/master/mnist/main.py
@@ -24,27 +23,24 @@ https://github.com/pytorch/examples/blob/master/mnist/main.py
 class net(nn.Module):
     def __init__(self):
         super(net, self).__init__()
-        layers = [64,64,'M',128,128,'M',256,256,256,'M',512,512,512,'M','F','FC1','FC2','FC3']
+        layers = [64, 64, 'M', 128, 128, 'M', 256, 256, 256, 'M', 512, 512, 512, 'M', 'F', 'FC1', 'FC2', 'FC3']
         modulelist = []
         channel = 1
 
         for layer in layers:
-            if layer == 'M': #视窗2 步长2 固定1/4池化
+            if layer == 'M':  # 2*2; 1/4 pooling (100*100 => 50*50 => 25*25 => 12*12 => 6*6)
                 modulelist.append(nn.MaxPool2d(kernel_size=2, stride=2))
-            elif layer == 'F': #视窗2 步长2 固定1/4池化
+            elif layer == 'F':  # FLATTEN
                 modulelist.append(nn.Flatten())
-            elif layer == 'FC1': #全连接层1号 输入通道 512 -> 1024 输出
-                # modulelist.append(nn.Conv2d(in_channels=512, out_channels=1024, kernel_size=3, padding=6, dilation=6))
-                modulelist.append(nn.Linear(320000, 1024))
+            elif layer == 'FC1':  # Full connection 1 in = 6*6*512 -> 1024 out
+                modulelist.append(nn.Linear(6 * 6 * 512, 1024))
                 modulelist.append(nn.ReLU(inplace=True))
-            elif layer == 'FC2': #全连接层2号 输入通道 1024 -> 1024 输出
-                # modulelist.append(nn.Conv2d(in_channels=1024, out_channels=1024, kernel_size=1))
+            elif layer == 'FC2':  # Full connection 2 in = 1024 -> 256 out
                 modulelist.append(nn.Linear(1024, 256))
                 modulelist.append(nn.ReLU(inplace=True))
-            elif layer == 'FC3': #全连接层3号 输入通道 1024 -> 2 输出
-                # modulelist.append(nn.Conv2d(in_channels=1024, out_channels=2, kernel_size=1))
+            elif layer == 'FC3':  # Full connection 3 in = 256 -> 2 out
                 modulelist.append(nn.Linear(256, 2))
-            else: # 普通卷积层 输入 in_channel 输出 out_channel
+            else:  # Conv2d inout = in_channel; output = out_channel
                 modulelist.append(nn.Conv2d(in_channels=channel, out_channels=layer, kernel_size=3, padding=1))
                 modulelist.append(nn.ReLU(inplace=True))
                 channel = layer
@@ -54,17 +50,13 @@ class net(nn.Module):
         x = x
         i = 1
         for module in self.vgg:
-            print(i)
             if i == 30:
                 x = module(x)
-                # x = x.view(x.size(0), -1)
                 x = F.softmax(x, -1)
             else:
                 x = module(x)
-                # x = x.view(x.size(0), -1)
-                i = i+1
+                i = i + 1
 
-        print(x.shape + '/n')
         output = x
         return output
 
@@ -78,7 +70,7 @@ def train(model, device, train_loader, optimizer):
             label = label.to(device)
             optimizer.zero_grad()
             output = model(data)
-            loss = cost(output, label)        
+            loss = cost(output, label)
             loss.backward()
             optimizer.step()
             progress_bar.update(1)
@@ -114,14 +106,14 @@ def val(model, device, val_loader, checkpoint=None):
     f1 = f1_score(targets, preds, average='binary')
     fpr, tpr, thresholds = roc_curve(targets, preds, pos_label=1)
     au = auc(fpr, tpr)
-    
+
     return loss, acc, recall, precision, f1, fpr, tpr, thresholds, au
 
 
 def test(model, device, test_loader, checkpoint=None):
     if checkpoint is not None:
         model_state = torch.load(checkpoint)
-        model.load_state_dict(model_state)    
+        model.load_state_dict(model_state)
     model.eval()
     preds = []
     targets = []
@@ -132,9 +124,8 @@ def test(model, device, test_loader, checkpoint=None):
             output = model(data)
             preds.append(output.cpu().numpy())
             targets.append(target.cpu().numpy())
-        
+
     preds = np.argmax(np.concatenate(preds), axis=1)
     targets = np.concatenate(targets)
     acc = accuracy_score(targets, preds)
     return acc
-
