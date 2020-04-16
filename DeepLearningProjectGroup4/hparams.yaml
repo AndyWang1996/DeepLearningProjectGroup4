@@ -8,7 +8,7 @@ MLP:
   data_dir: "/content/DeepLearningProjectGroup4/DeepLearningProjectGroup4/image"
   checkpoint_dir: "checkpoints/mlp"
   log_dir: 'logs/mlp'
-  dataset_class: "FashionMNISTDataset"
+  dataset_class: "DLG4Dataset"
   flatten: True
   gpu_vis_dev: '0'
   num_epochs: 20
@@ -21,7 +21,7 @@ CNN:
   data_dir: "/content/DeepLearningProjectGroup4/DeepLearningProjectGroup4/image"
   checkpoint_dir: "checkpoints/cnn"
   log_dir: 'logs/cnn'
-  dataset_class: "FashionMNISTDataset"
+  dataset_class: "DLG4Dataset"
   flatten: False
   gpu_vis_dev: '0'
   num_epochs: 20
@@ -34,7 +34,7 @@ VGG16:
   data_dir: "/content/DeepLearningProjectGroup4/DeepLearningProjectGroup4/image"
   checkpoint_dir: "checkpoints/vgg16"
   log_dir: 'logs/vgg16'
-  dataset_class: "FashionMNISTDataset"
+  dataset_class: "DLG4Dataset"
   flatten: False
   gpu_vis_dev: '0'
   num_epochs: 20
