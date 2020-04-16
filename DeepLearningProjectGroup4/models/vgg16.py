@@ -101,7 +101,7 @@ def val(model, device, val_loader, checkpoint=None):
             preds.append(output.cpu().numpy())
             targets.append(target.cpu().numpy())
             losses.append(cost(output, label))
-    loss = np.mean(losses)
+    loss = torch.mean(losses).numpy()
     preds = np.argmax(np.concatenate(preds), axis=1)
     targets = np.concatenate(targets)
     acc = accuracy_score(targets, preds)
