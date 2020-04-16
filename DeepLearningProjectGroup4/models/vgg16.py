@@ -55,6 +55,7 @@ class net(nn.Module):
         x = x
         i = 0
         for module in self.vgg:
+            print(i)
             if i == len(self.vgg)-1:
                 x = module(x)
                 x = F.softmax(x, -1)
