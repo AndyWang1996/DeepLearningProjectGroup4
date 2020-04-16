@@ -24,15 +24,13 @@ https://github.com/pytorch/examples/blob/master/mnist/main.py
 class net(nn.Module):
     def __init__(self):
         super(net, self).__init__()
-        layers = [64,64,'M',128,128,'M',256,256,256,'M',512,512,512,'M','F','FC1','FC2','FC3']
+        layers = [64,64,'M',128,128,'M',256,256,256,'M',512,512,512,'M','Flat','FC1','FC2','FC3']
         modulelist = []
         channel = 1
 
         for layer in layers:
             if layer == 'M': #视窗2 步长2 固定1/4池化
                 modulelist.append(nn.MaxPool2d(kernel_size=2, stride=2))
-            elif layer == 'F': #视窗2 步长2 固定1/4池化
-                modulelist.append(nn.Flatten())
             elif layer == 'FC1': #全连接层1号 输入通道 512 -> 1024 输出
                 # modulelist.append(nn.Conv2d(in_channels=512, out_channels=1024, kernel_size=3, padding=6, dilation=6))
                 modulelist.append(nn.Linear(320000, 1024))
@@ -44,24 +42,25 @@ class net(nn.Module):
             elif layer == 'FC3': #全连接层3号 输入通道 1024 -> 2 输出
                 # modulelist.append(nn.Conv2d(in_channels=1024, out_channels=2, kernel_size=1))
                 modulelist.append(nn.Linear(256, 2))
+            elif layer == 'Flat':
+                modulelist.append(torch.flatten)
             else: # 普通卷积层 输入 in_channel 输出 out_channel
                 modulelist.append(nn.Conv2d(in_channels=channel, out_channels=layer, kernel_size=3, padding=1))
                 modulelist.append(nn.ReLU(inplace=True))
                 channel = layer
-        self.vgg = nn.ModuleList(modulelist)
+            
+        self.vgg = modulelist
 
     def forward(self, x):
         x = x
-        i = 1
+        i = 0
         for module in self.vgg:
             print(i)
-            if i == 30:
+            if i == len(self.vgg)-1:
                 x = module(x)
-                # x = x.view(x.size(0), -1)
                 x = F.softmax(x, -1)
             else:
                 x = module(x)
-                # x = x.view(x.size(0), -1)
                 i = i+1
 
         print(x.shape + '/n')
@@ -137,4 +136,3 @@ def test(model, device, test_loader, checkpoint=None):
     targets = np.concatenate(targets)
     acc = accuracy_score(targets, preds)
     return acc
-
