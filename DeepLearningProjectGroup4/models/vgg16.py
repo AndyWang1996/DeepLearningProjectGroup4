@@ -30,16 +30,19 @@ class net(nn.Module):
 
         for layer in layers:
             if layer == 'M': #视窗2 步长2 固定1/4池化
-                modulelist.append(nn.MaxPool2d(kernel_size = 2, stride = 2))
+                modulelist.append(nn.MaxPool2d(kernel_size=2, stride=2))
             elif layer == 'FC1': #全连接层1号 输入通道 512 -> 1024 输出
-                modulelist.append(nn.Conv2d(in_channels=512, out_channels=1024, kernel_size=3, padding=6, dilation=6))
+                modulelist.append(torch.flatten())
+                # modulelist.append(nn.Conv2d(in_channels=512, out_channels=1024, kernel_size=3, padding=6, dilation=6))
+                modulelist.append(nn.Linear(320000, 1024))
                 modulelist.append(nn.ReLU(inplace=True))
             elif layer == 'FC2': #全连接层2号 输入通道 1024 -> 1024 输出
-                modulelist.append(nn.Conv2d(in_channels=1024, out_channels=1024, kernel_size=1))
+                # modulelist.append(nn.Conv2d(in_channels=1024, out_channels=1024, kernel_size=1))
+                modulelist.append(nn.Linear(1024, 256))
                 modulelist.append(nn.ReLU(inplace=True))
             elif layer == 'FC3': #全连接层3号 输入通道 1024 -> 2 输出
-                modulelist.append(nn.Conv2d(in_channels=1024, out_channels=2, kernel_size=1))
-                #modulelist.append(F.softmax(-1))
+                # modulelist.append(nn.Conv2d(in_channels=1024, out_channels=2, kernel_size=1))
+                modulelist.append(nn.Linear(256, 2))
             else: # 普通卷积层 输入 in_channel 输出 out_channel
                 modulelist.append(nn.Conv2d(in_channels=channel, out_channels=layer, kernel_size=3, padding=1))
                 modulelist.append(nn.ReLU(inplace=True))
@@ -52,14 +55,14 @@ class net(nn.Module):
         for module in self.vgg:
             if i == 29:
                 x = module(x)
-                x = x.view(x.size(0), -1)
+                # x = x.view(x.size(0), -1)
                 x = F.softmax(x, -1)
             else:
                 x = module(x)
                 # x = x.view(x.size(0), -1)
                 i = i+1
 
-        print(x.shape)
+        print(x.shape + '/n')
         output = x
         return output
 
