@@ -95,7 +95,9 @@ def val(model, device, val_loader, checkpoint=None):
         for batch_idx, (data, label) in enumerate(val_loader):
             data = data.to(device)
             target = label.clone()
+            label = label.to(device)
             output = model(data)
+            output = output.to(device)
             preds.append(output.cpu().numpy())
             targets.append(target.cpu().numpy())
             losses.append(cost(output, label))
