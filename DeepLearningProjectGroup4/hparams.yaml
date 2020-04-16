@@ -5,7 +5,7 @@ default: &DEFAULT
 MLP:
   <<: *DEFAULT
   model_name: mlp
-  data_dir: "fashionmnist" 
+  data_dir: "/content/DeepLearningProjectGroup4/DeepLearningProjectGroup4/image"
   checkpoint_dir: "checkpoints/mlp"
   log_dir: 'logs/mlp'
   dataset_class: "FashionMNISTDataset"
@@ -18,7 +18,7 @@ MLP:
 CNN:
   <<: *DEFAULT
   model_name: cnn
-  data_dir: "fashionmnist"
+  data_dir: "/content/DeepLearningProjectGroup4/DeepLearningProjectGroup4/image"
   checkpoint_dir: "checkpoints/cnn"
   log_dir: 'logs/cnn'
   dataset_class: "FashionMNISTDataset"
@@ -31,7 +31,7 @@ CNN:
 VGG16:
   <<: *DEFAULT
   model_name: vgg16
-  data_dir: "fashionmnist"
+  data_dir: "/content/DeepLearningProjectGroup4/DeepLearningProjectGroup4/image"
   checkpoint_dir: "checkpoints/vgg16"
   log_dir: 'logs/vgg16'
   dataset_class: "FashionMNISTDataset"
