@@ -56,6 +56,7 @@ class net(nn.Module):
             if i == 24:
                 x = module(x)
                 x = torch.flatten(x)
+                i = i+1
             if i == 29:
                 x = module(x)
                 # x = x.view(x.size(0), -1)
