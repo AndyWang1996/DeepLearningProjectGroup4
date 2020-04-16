@@ -52,6 +52,7 @@ class net(nn.Module):
         x = x
         i = 1
         for module in self.vgg:
+            print(i)
             if i == 24:
                 x = module(x)
                 x = torch.flatten(x)
