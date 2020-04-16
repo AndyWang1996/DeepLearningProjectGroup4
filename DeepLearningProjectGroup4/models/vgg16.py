@@ -59,7 +59,7 @@ class net(nn.Module):
                 # x = x.view(x.size(0), -1)
                 i = i+1
 
-        print(x)
+        print(len(x))
         output = x
         return output
 
