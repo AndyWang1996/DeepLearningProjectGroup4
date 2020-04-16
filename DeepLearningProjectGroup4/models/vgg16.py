@@ -32,7 +32,6 @@ class net(nn.Module):
             if layer == 'M': #视窗2 步长2 固定1/4池化
                 modulelist.append(nn.MaxPool2d(kernel_size=2, stride=2))
             elif layer == 'FC1': #全连接层1号 输入通道 512 -> 1024 输出
-                modulelist.append(torch.flatten())
                 # modulelist.append(nn.Conv2d(in_channels=512, out_channels=1024, kernel_size=3, padding=6, dilation=6))
                 modulelist.append(nn.Linear(320000, 1024))
                 modulelist.append(nn.ReLU(inplace=True))
@@ -53,6 +52,9 @@ class net(nn.Module):
         x = x
         i = 1
         for module in self.vgg:
+            if i == 24:
+                x = torch.flatten(x)
+                x = module(x)
             if i == 29:
                 x = module(x)
                 # x = x.view(x.size(0), -1)
