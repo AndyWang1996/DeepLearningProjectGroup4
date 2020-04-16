@@ -50,18 +50,17 @@ class net(nn.Module):
         x = x
         i = 1
         for module in self.vgg:
-#            x = module(x)
             if i == 29:
                 x = module(x)
                 x = x.view(x.size(0), -1)
-                x = F.softmax(x,-1)
-#                print(x)
+                x = F.softmax(x, -1)
             else:
                 x = module(x)
+                x = x.view(x.size(0), -1)
                 i = i+1
-                
+
+        print(x)
         output = x
-        #print(output)
         return output
 
 
