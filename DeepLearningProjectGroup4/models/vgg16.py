@@ -56,7 +56,7 @@ class net(nn.Module):
                 x = F.softmax(x, -1)
             else:
                 x = module(x)
-                x = x.view(x.size(0), -1)
+                # x = x.view(x.size(0), -1)
                 i = i+1
 
         print(x)
